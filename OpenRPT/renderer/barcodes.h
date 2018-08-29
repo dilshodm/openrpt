@@ -59,9 +59,8 @@ void renderCodeUPCE(QPainter *, int, const QRectF &, const QString &, OROBarcode
 //
 // CodeDataMatrix
 //
-
-void renderCodeDatamatrix(QPainter *, const QRectF &, const QString &, OROBarcode * bc);
 void renderDataMatrix(QPainter *, const QRectF &, const QString &, OROBarcode * bc);
+
 //
 // PDF417
 //
@@ -82,6 +81,5 @@ typedef struct DmtxInfos_struct {
 } DmtxInfos;
 
 DmtxInfos extractInfosDtmx(const QString &s);
-
 #endif
 
