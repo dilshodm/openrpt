@@ -34,7 +34,8 @@ QT += xml sql widgets printsupport
 QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
 LIBS += -ldmtx -lopenrptcommon -lrenderer -lqzint
 
-FORMS   += labeleditor.ui \
+FORMS   += datamatrixconfig.ui \
+           labeleditor.ui \
            labeldefinitions.ui \
            labeldefinitioneditor.ui \
            queryeditor.ui \
@@ -67,6 +68,7 @@ FORMS   += labeleditor.ui \
 
 HEADERS += reportgridoptions.h\
            reporthandler.h \
+           datamatrixconfig.h \
            documentwindow.h \
            documentview.h \
            documentscene.h \
@@ -107,6 +109,7 @@ HEADERS += reportgridoptions.h\
 
 SOURCES += reportgridoptions.cpp\
            reporthandler.cpp \
+           datamatrixconfig.cpp \
            documentwindow.cpp \
            documentview.cpp \
            documentscene.cpp \
@@ -144,6 +147,7 @@ SOURCES += reportgridoptions.cpp\
            patheditor.cpp \
            pdf417config.cpp \
            qrconfig.cpp
+
 
 RESOURCES += ../images/OpenRPTWrtembed.qrc
 

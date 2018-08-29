@@ -64,6 +64,7 @@ SOURCES = openreports.cpp \
           code128.cpp \
           codeean.cpp \
           crosstab.cpp \
+          dmatrixbc.cpp \
           graph.cpp \
           orutils.cpp \
           orprerender.cpp \

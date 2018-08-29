@@ -13,6 +13,7 @@ SOURCES += barcodeitem.cpp \
     qzint.cpp \
     common.c \
     dllversion.c \
+    dmatrix.c \
     large.c \
     library.c \
     pdf417.c \
@@ -27,6 +28,7 @@ SOURCES += barcodeitem.cpp \
 HEADERS  += barcodeitem.h \
     qzint.h \
     common.h \
+    dmatrix.h \
     font.h \
     large.h \
     pdf417.h \

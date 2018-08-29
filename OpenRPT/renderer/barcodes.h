@@ -23,7 +23,7 @@
 
 #include <QRect>
 #include <QString>
-
+#include <QPainter>
 class ORBarcodeData;
 class OROBarcode;
 class OROPage;
@@ -61,7 +61,7 @@ void renderCodeUPCE(QPainter *, int, const QRectF &, const QString &, OROBarcode
 //
 
 void renderCodeDatamatrix(QPainter *, const QRectF &, const QString &, OROBarcode * bc);
-
+void renderDataMatrix(QPainter *, const QRectF &, const QString &, OROBarcode * bc);
 //
 // PDF417
 //
