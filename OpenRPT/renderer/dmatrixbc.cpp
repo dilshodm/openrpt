@@ -95,7 +95,7 @@ void renderDataMatrix(QPainter *painter, const QRectF &r, const QString &_str, O
   painter->setBrush(brush);
 
   BarcodeItem bci;
-  bci.ar=(Zint::QZint::AspectRatioMode)0;
+  bci.ar=(Zint::QZint::AspectRatioMode)1;
   bci.bc.setText(_str);
   bci.bc.setSecurityLevel(1);
   bci.bc.setInputMode(UNICODE_MODE);

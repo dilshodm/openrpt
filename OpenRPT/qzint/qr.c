@@ -1129,7 +1129,7 @@ int qr_code(struct zint_symbol *symbol, uint8_t source[], int length)
 		case LEVEL_H: target_binlen = qr_data_codewords_H[version - 1]; blocks = qr_blocks_H[version - 1]; break;
 	}
 
-
+    size = qr_sizes[version - 1];
 #ifdef _MSC_VER
 	int* datastream = malloc( (target_binlen + 1) * sizeof(int) );
 	int* fullstream = malloc( (qr_total_codewords[version - 1] + 1) * sizeof(int) );
