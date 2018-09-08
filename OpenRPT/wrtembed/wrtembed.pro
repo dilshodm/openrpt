@@ -32,7 +32,7 @@ OBJECTS_DIR = tmp
 QT += xml sql widgets printsupport
 
 QMAKE_LIBDIR = ../../lib $$QMAKE_LIBDIR
-LIBS += -ldmtx -lopenrptcommon -lrenderer -lqzint
+LIBS += -lopenrptcommon -lrenderer -lqzint
 
 FORMS   += datamatrixconfig.ui \
            labeleditor.ui \
@@ -102,7 +102,6 @@ HEADERS += reportgridoptions.h\
            dmatrixsquareconfig.h \
            dmatrixrectconfig.h \
            dbarcodeconfig.h \
-           dmatrixpreview.h \
            patheditor.h \
            pdf417config.h \
            qrconfig.h
@@ -143,15 +142,9 @@ SOURCES += reportgridoptions.cpp\
            dmatrixsquareconfig.cpp \
            dmatrixrectconfig.cpp \
            dbarcodeconfig.cpp \
-           dmatrixpreview.cpp \
            patheditor.cpp \
            pdf417config.cpp \
            qrconfig.cpp
 
 
 RESOURCES += ../images/OpenRPTWrtembed.qrc
-
-bundled_dmtx {
-  INCLUDEPATH += ../Dmtx_Library
-}
-
