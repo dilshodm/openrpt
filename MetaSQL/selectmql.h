@@ -31,7 +31,7 @@ class SelectMQL : public QWidget, public Ui::SelectMQL
     Q_OBJECT
 
   public:
-    SelectMQL(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    SelectMQL(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~SelectMQL();
 
     Q_INVOKABLE virtual int     grade()  const;

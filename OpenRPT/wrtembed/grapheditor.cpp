@@ -355,7 +355,7 @@ void GraphEditor::_btnNewSeries_clicked()
         for(int i = 0; i < _seriesList.count(); i++) {
 	        if(_seriesList.at(i)->name == sname) {
 	            counter++;
-	            sname = QString().sprintf("New Series %d", counter);
+	            sname = QString {}.asprintf("New Series %d", counter);
 	            exitLoop = false;
                 break;
 	        }
@@ -364,8 +364,8 @@ void GraphEditor::_btnNewSeries_clicked()
     
     ORSeriesData * sd = new ORSeriesData();
     sd->name = sname;
-    sd->color = QString::null;
-    sd->column = QString::null;
+    sd->color = QString {};
+    sd->column = QString {};
     sd->style.bar = true;
     sd->style.line = false;
     sd->style.point = false;

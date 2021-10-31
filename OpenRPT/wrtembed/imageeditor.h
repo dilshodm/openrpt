@@ -30,7 +30,7 @@ class ImageEditor : public QDialog, public Ui::ImageEditor
     Q_OBJECT
 
 public:
-    ImageEditor(QWidget* parent = 0, Qt::WFlags fl = 0);
+    ImageEditor(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~ImageEditor();
 
 public slots:

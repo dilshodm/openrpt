@@ -30,7 +30,7 @@ class QueryEditor : public QDialog, public Ui::QueryEditor
     Q_OBJECT
 
   public:
-    QueryEditor(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    QueryEditor(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~QueryEditor();
 
   protected slots:

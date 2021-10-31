@@ -58,7 +58,7 @@ bool ORPrintRender::setupPrinter(ORODocument * pDocument, QPrinter * pPrinter)
   pPrinter->setCreator("OpenRPT Print Renderer");
   pPrinter->setDocName(pDocument->title());
   pPrinter->setFullPage(true);
-  pPrinter->setOrientation((pDocument->pageOptions().isPortrait() ? QPrinter::Portrait : QPrinter::Landscape));
+  pPrinter->setPageOrientation((pDocument->pageOptions().isPortrait() ? QPageLayout::Portrait : QPageLayout::Landscape));
   pPrinter->setPageOrder(QPrinter::FirstPageFirst);
 
   PageSizeInfo psi = PageSizeInfo::getByName(pDocument->pageOptions().getPageSize());
@@ -142,7 +142,7 @@ bool ORPrintRender::render(ORODocument * pDocument)
   if(toPage == 0 || toPage > pDocument->pages())
     toPage = pDocument->pages();
 
-  for(int copy = 0; copy < _printer->numCopies(); copy++)
+  for(int copy = 0; copy < _printer->copyCount(); copy++)
   {
     for(int page = fromPage; page < toPage; page++)
     {
@@ -153,7 +153,7 @@ bool ORPrintRender::render(ORODocument * pDocument)
       if(_printer->pageOrder() == QPrinter::LastPageFirst)
         pageToPrint = toPage - 1 - page;
 
-      QSize margins(_printer->paperRect().left() - _printer->pageRect().left(), _printer->paperRect().top() - _printer->pageRect().top());
+      QSize margins(_printer->paperRect(QPrinter::DevicePixel).left() - _printer->pageRect(QPrinter::DevicePixel).left(), _printer->paperRect(QPrinter::DevicePixel).top() - _printer->pageRect(QPrinter::DevicePixel).top());
       renderPage(pDocument, pageToPrint, _painter, xDpi, yDpi, margins, _printer->resolution());
     }
   }
@@ -246,7 +246,7 @@ void renderWatermark(QImage & image, const QString & wmText, bool wmUseDefaultFo
   QFontInfo fi(fnt);
   QString family = fi.family();
   QList<int> sizes = QFontDatabase().pointSizes(family);
-  qSort(sizes);
+  std::sort(sizes.begin(), sizes.end());
 
   for(int i = sizes.size() - 1; i > 0; i--)
   {

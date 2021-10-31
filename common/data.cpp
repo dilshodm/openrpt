@@ -32,5 +32,5 @@ LanguageOptions OpenRPT::languages(0);
 /* set the values for these in each main() or
    in the constructor for the primary UI of embedded components:
  */
-QString OpenRPT::databaseURL = QString::null;
-QString OpenRPT::name = QString::null;
+QString OpenRPT::databaseURL = QString {};
+QString OpenRPT::name = QString {};

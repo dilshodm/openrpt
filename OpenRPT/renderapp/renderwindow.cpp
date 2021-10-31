@@ -102,7 +102,7 @@ void RenderWindow::helpAbout()
 
 void RenderWindow::fileOpen()
 {
-  QString filename = QFileDialog::getOpenFileName(this, QString(), _reportName->text(), tr("XML (*.xml);;All Files (*)"));
+  QString filename = QFileDialog::getOpenFileName(this, QString {}, _reportName->text(), tr("XML (*.xml);;All Files (*)"));
   if(filename.isEmpty())
     return;
 
@@ -157,9 +157,9 @@ void RenderWindow::setDocument(const QDomDocument & doc)
   _doc = doc;
   _reportInfo->setEnabled(true);
 
-  _reportName->setText(QString::null);
-  _reportTitle->setText(QString::null);
-  _reportDescription->setText(QString::null);
+  _reportName->setText(QString {});
+  _reportTitle->setText(QString {});
+  _reportDescription->setText(QString {});
   for(QDomNode n = root.firstChild(); !n.isNull(); n = n.nextSibling())
   {
     if(n.nodeName() == "name")
@@ -304,7 +304,7 @@ void RenderWindow::print(bool showPreview, int numCopies )
     if(!_printerName.isEmpty())
     {
       printer.setPrinterName(_printerName);
-      _printerName = QString::null;
+      _printerName = QString {};
     }
 
     ORPrintRender render;

@@ -30,7 +30,7 @@ class ReportParameterListItem : public QDialog, public Ui::ReportParameterListIt
     Q_OBJECT
 
 public:
-    ReportParameterListItem(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    ReportParameterListItem(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~ReportParameterListItem();
 
 protected slots:

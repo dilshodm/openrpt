@@ -22,6 +22,7 @@
 #define METASQLHIGHLIGHTER_H
 
 #include <QSyntaxHighlighter>
+#include <QRegExp>
 
 class QColor;
 class QTextDocument;

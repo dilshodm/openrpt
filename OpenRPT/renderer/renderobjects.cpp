@@ -20,6 +20,7 @@
 
 #include <QDebug>
 #include <QPainter>
+#include <QRegExp>
 
 #include "renderobjects.h"
 #include "parsexmlutils.h"
@@ -279,17 +280,17 @@ QString OROTextBox::textForcedToWrap(QPainter *p)
     int wordstart = 0;
     while (wordre.indexIn(result, wordstart) != -1)
     {
-      if (fm.width(wordre.cap(1)) <= tbrect.width())
+      if (fm.boundingRect(wordre.cap(1)).width() <= tbrect.width())
         wordstart += wordre.matchedLength();
       else
       {
         QString longword = wordre.cap(1);
-        int i = longword.length() * (double)tbrect.width() / fm.width(longword);
+        int i = longword.length() * (double)tbrect.width() / fm.boundingRect(longword).width();
         while (i > 2 &&
-               fm.width(longword.left(i)) >= tbrect.width())
+               fm.boundingRect(longword.left(i)).width() >= tbrect.width())
            i--;
         while (i < longword.length() &&
-               fm.width(longword.left(i)) < tbrect.width())
+               fm.boundingRect(longword.left(i)).width() < tbrect.width())
            i++;
         // i now points to the char that overflows
         result.insert(wordstart + i - 1, " ");

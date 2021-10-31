@@ -1,4 +1,5 @@
 #include <QtGui>
+#include <QRegExp>
 
 #include "orprerender.h"
 #include "renderobjects.h"
@@ -15,7 +16,7 @@
 
 TextElementSplitter::TextElementSplitter(ORObject *textelem, QString text, qreal leftMargin, qreal yOffset, qreal pageBottom) :
   _text(text), _leftMargin(leftMargin), _yOffset(yOffset), _pageBottom(pageBottom), _lineCounter(0)
-{   
+{
   _element = textelem->toText();
 
   if (_text.isEmpty())

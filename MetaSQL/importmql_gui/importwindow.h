@@ -30,7 +30,7 @@ class ImportWindow : public QMainWindow, public Ui::ImportWindow
     Q_OBJECT
 
   public:
-    ImportWindow(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    ImportWindow(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~ImportWindow();
 
   public slots:

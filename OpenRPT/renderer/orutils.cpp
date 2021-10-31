@@ -19,6 +19,7 @@
  */
 
 #include "orutils.h"
+#include <QRegExp>
 
 #include "../../MetaSQL/metasql.h"
 

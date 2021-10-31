@@ -73,8 +73,8 @@ bool 	ZebraPaintEngine::begin ( QPaintDevice * pdev )
     init += customInitString();
   }
   else {
-    int height = m_parentPrinter->paperRect().height() * (resolution()/72.0); // ?? doc says that paperRect() is in device coordinates, but we get it in PS points
-    int width = m_parentPrinter->paperRect().width() * (resolution()/72.0);
+    int height = m_parentPrinter->paperRect(QPrinter::DevicePixel).height() * (resolution()/72.0); // ?? doc says that paperRect() is in device coordinates, but we get it in PS points
+    int width = m_parentPrinter->paperRect(QPrinter::DevicePixel).width() * (resolution()/72.0);
     init += QString(m_CmdPrefix + "LL%1" + m_CmdPrefix + "PW%2" + m_CmdPrefix + "CI8").arg(height).arg(width);
   }
 
@@ -92,7 +92,7 @@ void 	ZebraPaintEngine::addEndMessage ()
     printMode = "T";
   }
   m_printBuffer += QString(m_CmdPrefix + "MM%1").arg(printMode);
-  m_printBuffer += QString(m_CmdPrefix + "PQ%1%2").arg(m_parentPrinter->numCopies()).arg(m_parentPrinter->getParam("printqty_options"));
+  m_printBuffer += QString(m_CmdPrefix + "PQ%1%2").arg(m_parentPrinter->copyCount()).arg(m_parentPrinter->getParam("printqty_options"));
   m_printBuffer += QString(m_CmdPrefix + "XZ\n");
 }
 
@@ -198,7 +198,7 @@ void ZebraPaintEngine::drawImage ( const QRectF & rectangle, const QImage & imag
   // Hexa-encoded PNG
   m_printBuffer += QString("~DYR:IMG,P,G,%1,0,").arg(encodedImage.size());
   for(int i=0; i<encodedImage.size(); i++) {
-    m_printBuffer.append(QString().sprintf("%02X",(unsigned char)encodedImage.at(i)).toUpper());
+    m_printBuffer.append(QString {}.asprintf("%02X",(unsigned char)encodedImage.at(i)).toUpper());
   }
   // OR: B64-encoded PNG
   m_printBuffer += QString("~DYR:IMG,P,G,%1,0,:B64:").arg(encodedImage.size());
@@ -207,7 +207,7 @@ void ZebraPaintEngine::drawImage ( const QRectF & rectangle, const QImage & imag
 
   quint16 icrc = qChecksum(encodedImage.data(), encodedImage.length());
   m_printBuffer += ":";
-  m_printBuffer.append(QString().sprintf("%02X",icrc));
+  m_printBuffer.append(QString {}.asprintf("%02X",icrc));
   // end of B64 encoding
 */
   int width = monoImage.width();
@@ -223,7 +223,7 @@ void ZebraPaintEngine::drawImage ( const QRectF & rectangle, const QImage & imag
         imageByte >>= 8-validPix;
         imageByte <<= 8-validPix;
       }
-      grfImage.append(QString().sprintf("%02X",imageByte));
+      grfImage.append(QString {}.asprintf("%02X",imageByte));
     }
   }
 

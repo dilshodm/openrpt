@@ -32,7 +32,7 @@ class GraphEditor : public QDialog, public Ui::GraphEditor
     Q_OBJECT
 
 public:
-    GraphEditor(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    GraphEditor(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~GraphEditor();
 
 public slots:

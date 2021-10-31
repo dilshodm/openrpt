@@ -30,7 +30,7 @@ class EditPreferences : public QDialog, public Ui::EditPreferences
     Q_OBJECT
 
 public:
-    EditPreferences(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    EditPreferences(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~EditPreferences();
 
     QString selectedLanguage() {return _selectedLanguage;}

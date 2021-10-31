@@ -48,7 +48,7 @@
 
 #define DEBUG false
 
-static QString lastSaveDir = QString();
+static QString lastSaveDir = QString {};
 
 MQLEdit::MQLEdit(QWidget* parent, Qt::WindowFlags fl)
     : QWidget(parent, fl)
@@ -115,12 +115,12 @@ MQLEdit::MQLEdit(QWidget* parent, Qt::WindowFlags fl)
     menuproxy->addAction(ToolsMenu->menuAction());
     menuproxy->addAction(helpMenu->menuAction());
   }
-  
+
   fileDatabaseConnectAction->setEnabled(!OpenRPT::loggedIn);
   fileDatabaseDisconnectAction->setEnabled(OpenRPT::loggedIn);
   fileDatabaseOpenAction->setEnabled(OpenRPT::loggedIn);
   fileDatabaseSaveAsAction->setEnabled(OpenRPT::loggedIn);
-  
+
   _pEdit   = new ParameterEdit(this, Qt::Window);
   _log     = new LogOutput(this);
   _sql     = new LogOutput(this);
@@ -170,10 +170,10 @@ void MQLEdit::fileOpen()
         _text->document()->setModified(false);
         _fileName = fileName;
         _mqlGrade = -1;
-        _mqlGroup = QString::null;
-        _mqlName  = QString::null;
-        _mqlNotes = QString::null;
-        _mqlSchema= QString::null;
+        _mqlGroup = QString {};
+        _mqlName  = QString {};
+        _mqlNotes = QString {};
+        _mqlSchema= QString {};
         setWindowTitle(getTitleString(MQLFile));
         setDestType(MQLFile);
       }
@@ -255,12 +255,12 @@ void MQLEdit::clear()
   _text->clear();
   _text->document()->setModified(false);
   setWindowModified(false);
-  _fileName = QString::null;
+  _fileName = QString {};
   _mqlGrade   = -1;
-  _mqlGroup = QString::null;
-  _mqlName  = QString::null;
-  _mqlNotes = QString::null;
-  _mqlSchema= QString::null;
+  _mqlGroup = QString {};
+  _mqlName  = QString {};
+  _mqlNotes = QString {};
+  _mqlSchema= QString {};
 }
 
 void MQLEdit::editFind()
@@ -320,7 +320,7 @@ bool MQLEdit::askSaveIfModified()
         QMessageBox::warning(this, tr("Warning"),
              tr("Encountered an unknown response. No action will be taken."));
         return false;
-    
+
     }
   }
   return true;
@@ -383,7 +383,7 @@ bool MQLEdit::saveAs()
                                                 "Text Files (*.txt)"));
   if(tmpfilename.isEmpty())
     return false;
-  
+
   _fileName = tmpfilename;
   QFileInfo fi(tmpfilename);
   setWindowTitle(tr("[*]%1 - File: %2 (%3)")
@@ -433,7 +433,7 @@ void MQLEdit::fileDatabaseDisconnect()
 void MQLEdit::fileDatabaseOpen()
 {
   if (askSaveIfModified())
-  { 
+  {
     _mqlSelector = new SelectMQL(0, Qt::Dialog);
     _mqlSelector->setWindowModality(Qt::WindowModal);
     connect(_mqlSelector, SIGNAL(selectedQuery(int)), this, SLOT(sMQLSelected(int)));
@@ -450,7 +450,7 @@ void MQLEdit::sMQLSelected(int id)
   {
     _text->setText(_mqlSelector->query());
     _text->document()->setModified(false);
-    _fileName = QString::null;
+    _fileName = QString {};
     _mqlGrade = _mqlSelector->grade();
     _mqlGroup = _mqlSelector->group();
     _mqlName  = _mqlSelector->name();
@@ -481,7 +481,7 @@ void MQLEdit::fileDatabaseOpen(const int id)
     {
       _text->setText(getq.value("metasql_query").toString());
       _text->document()->setModified(false);
-      _fileName = QString::null;
+      _fileName = QString {};
       _mqlGrade = getq.value("metasql_grade").toInt();
       _mqlGroup = getq.value("metasql_group").toString();
       _mqlName  = getq.value("metasql_name").toString();
@@ -696,7 +696,7 @@ void MQLEdit::execQuery()
 
   _results->_table->setRowCount(0);
   _results->_table->setColumnCount(0);
-  
+
   _sql->_log->clear();
   _log->_log->clear();
   _log->_log->append(tr("---- Parsing Query ----\n"));
@@ -744,7 +744,7 @@ void MQLEdit::execQuery()
   {
     _log->_log->append(tr("ERROR: Invalid query!"));
     showLog();
-  }   
+  }
 }
 
 void MQLEdit::showLog()

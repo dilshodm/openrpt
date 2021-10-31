@@ -33,7 +33,7 @@ class LabelDefinitionEditor : public QDialog, public Ui::LabelDefinitionEditor
     Q_OBJECT
 
   public:
-    LabelDefinitionEditor(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    LabelDefinitionEditor(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~LabelDefinitionEditor();
 
   public slots:

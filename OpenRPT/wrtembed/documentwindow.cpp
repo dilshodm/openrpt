@@ -62,7 +62,7 @@ DocumentWindow::DocumentWindow(bool newDoc, ReportGridOptions * rgo, ReportHandl
 
 void DocumentWindow::setCaption()
 {
-  QString cap = QString();
+  QString cap = QString {};
   if(_scene->reportTitle().isEmpty()) cap = tr("Untitled Document");
   else cap = _scene->reportTitle();
 

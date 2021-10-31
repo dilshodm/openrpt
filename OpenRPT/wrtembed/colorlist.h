@@ -30,7 +30,7 @@ class ColorList : public QDialog, public Ui::ColorList
     Q_OBJECT
 
 public:
-    ColorList(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    ColorList(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~ColorList();
 
 public slots:

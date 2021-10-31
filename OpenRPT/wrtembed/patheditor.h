@@ -31,7 +31,7 @@ class PathEditor : public QDialog, public Ui::PathEditor
     Q_OBJECT
 
 public:
-    PathEditor(QWidget* parent, QPen initPen, Qt::WindowFlags fl = 0);
+    PathEditor(QWidget* parent, QPen initPen, Qt::WindowFlags fl = Qt::WindowFlags());
     ~PathEditor();
 
     QPen pen() { return _pen; }

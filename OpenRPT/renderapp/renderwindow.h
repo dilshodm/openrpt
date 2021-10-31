@@ -31,7 +31,7 @@ class RenderWindow : public QMainWindow, public Ui::RenderWindow
     Q_OBJECT
 
 public:
-    RenderWindow(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    RenderWindow(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~RenderWindow();
 
     QString _printerName;

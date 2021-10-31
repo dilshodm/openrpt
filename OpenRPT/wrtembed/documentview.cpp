@@ -49,17 +49,17 @@ DocumentView::DocumentView(DocumentScene * ds, QWidget * parent)
 void DocumentView::wheelEvent(QWheelEvent * e)
 {
   if(e->modifiers() & Qt::ControlModifier) {
-      zoom(e->delta());
+      zoom(e->angleDelta().y());
       e->accept();
       return;
   }
 
   // adjust event for smoother scrolling
-  QWheelEvent adjustedEvent ( e->pos(), e->delta()/2, e->buttons(), e->modifiers(), e->orientation() );
+  QWheelEvent adjustedEvent ( e->position(), e->globalPosition(), e->pixelDelta()/2, e->angleDelta()/2, e->buttons(), e->modifiers(), e->phase(), e->inverted() );
 
   QGraphicsView::wheelEvent(&adjustedEvent);
   if(adjustedEvent.isAccepted()) {
-      e->accept();        
+      e->accept();
   }
 }
 
@@ -76,7 +76,7 @@ void DocumentView::zoom(int delta)
 
         if(verticalScrollBar()->maximum() <= verticalScrollBar()->minimum()
             && horizontalScrollBar()->maximum() <= horizontalScrollBar()->minimum())
-            return; // no need to zoom in further, the document is already fully visible      
+            return; // no need to zoom in further, the document is already fully visible
     }
 
     double zoom = 1.0 + (delta / 1000.0);
@@ -128,7 +128,7 @@ void DocumentView::moveSelectedItems (int x, int y, Qt::KeyboardModifiers keyMod
     QGraphicsItem *firstItem = NULL;
 	QPointF lastPos;
 
-    foreach(QGraphicsItem *item, items()) 
+    foreach(QGraphicsItem *item, items())
     {
         if(item->isSelected())
 		{
@@ -151,7 +151,7 @@ void DocumentView::moveSelectedItems (int x, int y, Qt::KeyboardModifiers keyMod
 		}
     }
 
-	if(firstItem) 
+	if(firstItem)
 	{
 		_ds->setModified(true);
 		if(y != 0)

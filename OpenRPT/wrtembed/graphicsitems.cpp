@@ -200,7 +200,7 @@ void ORResizeHandle::mouseMoveEvent(QGraphicsSceneMouseEvent * event)
   }
   qreal dX = scenePos.x()-lastScenePos.x();
   qreal dY = scenePos.y()-lastScenePos.y();
- 
+
   switch(_role)
   {
     case TopLeft:
@@ -317,7 +317,7 @@ ORGraphicsRectItem::ORGraphicsRectItem(QGraphicsItem * parent)
 {
   setPen(QPen(Qt::black, 0));
   setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges);
-  setZValue(defaultZvalue-2); 
+  setZValue(defaultZvalue-2);
 
   _rhTopLeft = new ORResizeHandle(ORResizeHandle::TopLeft, this);
   _rhTop = new ORResizeHandle(ORResizeHandle::Top, this);
@@ -346,7 +346,7 @@ ORGraphicsRectItem::ORGraphicsRectItem(const QDomNode & entity, QGraphicsItem * 
 {
   setPen(QPen(Qt::black, 0));
   setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable);
-  setZValue(defaultZvalue-2); 
+  setZValue(defaultZvalue-2);
 
   _rhTopLeft = new ORResizeHandle(ORResizeHandle::TopLeft, this);
   _rhTop = new ORResizeHandle(ORResizeHandle::Top, this);
@@ -523,7 +523,7 @@ void ORGraphicsRectItem::contextMenuEvent(QGraphicsSceneContextMenuEvent * event
       menu.exec(event->screenPos());
       ds->handler()->setCopyPoint(o);
     }
-  }  
+  }
 
   //QGraphicsRectItem::contextMenuEvent(event);
 }
@@ -643,7 +643,7 @@ void ORGraphicsRectItem::buildXMLFont(QDomDocument & doc, QDomElement & entity, 
 
 void ORGraphicsRectItem::buildXMLCommon(QDomDocument & doc, QDomElement & entity)
 {
-    // bounding rectangle  
+    // bounding rectangle
 
     QRectF r = QRectF(mapToParent(rect().topLeft()), rect().size());
 
@@ -674,7 +674,7 @@ void ORGraphicsRectItem::buildXMLCommon(QDomDocument & doc, QDomElement & entity
     }
     if(rotation() != 0) {
         QDomElement rot = doc.createElement("rotation");
-        qreal angle = rotation(); 
+        qreal angle = rotation();
         rot.appendChild(doc.createTextNode(QString::number(angle)));
         element.appendChild(rot);
     }
@@ -725,11 +725,11 @@ void ORGraphicsRectItem::setDefaultEntityFont(const QFont & f)
   _readDefaultFont = true;
 }
 
-void ORGraphicsRectItem::setRotation(qreal angle) 
-{    
-    _rotation = angle; 
-    resetTransform(); 
-    rotate(angle); 
+void ORGraphicsRectItem::setRotation(qreal angle)
+{
+    _rotation = angle;
+    resetTransform();
+    QGraphicsRectItem::setRotation(angle);
 }
 
 //
@@ -739,7 +739,7 @@ ORGraphicsLineItem::ORGraphicsLineItem(QGraphicsItem * parent)
   : QGraphicsLineItem(0, 0, 100, 0, parent), _moved(false)
 {
   setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable|QGraphicsItem::ItemSendsGeometryChanges);
-  setZValue(defaultZvalue); 
+  setZValue(defaultZvalue);
 
   _rhStartPoint = new ORResizeHandle(ORResizeHandle::StartLine, this);
   _rhEndPoint = new ORResizeHandle(ORResizeHandle::EndLine, this);
@@ -755,7 +755,7 @@ ORGraphicsLineItem::ORGraphicsLineItem(const QDomNode & entity, QGraphicsItem * 
   : QGraphicsLineItem(0, 0, 100, 0, parent)
 {
   setFlags(QGraphicsItem::ItemIsMovable|QGraphicsItem::ItemIsSelectable);
-  setZValue(defaultZvalue); 
+  setZValue(defaultZvalue);
 
   _rhStartPoint = new ORResizeHandle(ORResizeHandle::StartLine, this);
   _rhEndPoint = new ORResizeHandle(ORResizeHandle::EndLine, this);
@@ -907,7 +907,7 @@ void ORGraphicsLineItem::contextMenuEvent(QGraphicsSceneContextMenuEvent * event
       menu.exec(event->screenPos());
       ds->handler()->setCopyPoint(o);
     }
-  }  
+  }
 
   //QGraphicsLineItem::contextMenuEvent(event);
 }
@@ -1001,7 +1001,7 @@ ORGraphicsLabelItem::ORGraphicsLabelItem(const QDomNode & element, QGraphicsItem
 {
   _font = getDefaultEntityFont();
   _flags = 0;
-  setZValue(defaultZvalue); 
+  setZValue(defaultZvalue);
 
   QDomNodeList nl = element.childNodes();
   QString n;
@@ -1184,7 +1184,7 @@ ORGraphicsFieldItem::ORGraphicsFieldItem(QGraphicsItem * parent)
   : ORGraphicsRectItem(parent)
 {
   _flags = 0;
-  setZValue(defaultZvalue); 
+  setZValue(defaultZvalue);
   _font = getDefaultEntityFont();
   _trackTotal = false;
   _trackBuiltinFormat = false;
@@ -1201,7 +1201,7 @@ ORGraphicsFieldItem::ORGraphicsFieldItem(const QDomNode & element, QGraphicsItem
   : ORGraphicsRectItem(parent)
 {
   _flags = 0;
-  setZValue(defaultZvalue); 
+  setZValue(defaultZvalue);
   _font = getDefaultEntityFont();
   _trackTotal = false;
   _trackBuiltinFormat = false;
@@ -1428,7 +1428,7 @@ void ORGraphicsFieldItem::properties(QWidget * parent)
 {
   FieldEditor * le = new FieldEditor(parent);
   le->labelPreview->setFont(font());
-  
+
   DocumentScene * ds = static_cast<DocumentScene*>(scene());
   if(ds)
     le->cbQuery->init(ds->qsList,query());
@@ -1608,7 +1608,7 @@ ORGraphicsTextItem::ORGraphicsTextItem(QGraphicsItem * parent)
   : ORGraphicsRectItem(parent)
 {
   _flags = 0;
-  setZValue(defaultZvalue); 
+  setZValue(defaultZvalue);
   _bpad = 0.0;
   _font = getDefaultEntityFont();
 }
@@ -1617,7 +1617,7 @@ ORGraphicsTextItem::ORGraphicsTextItem(const QDomNode & element, QGraphicsItem *
   : ORGraphicsRectItem(parent)
 {
   _flags = 0;
-  setZValue(defaultZvalue); 
+  setZValue(defaultZvalue);
   _bpad = 0.0;
   _font = getDefaultEntityFont();
 
@@ -1851,7 +1851,7 @@ void ORGraphicsTextItem::setTextFlags(int f)
 ORGraphicsBarcodeItem::ORGraphicsBarcodeItem(QGraphicsItem * parent)
   : ORGraphicsRectItem(parent)
 {
-  setZValue(defaultZvalue); 
+  setZValue(defaultZvalue);
   _frmt = QObject::tr("3of9");
   _align = 0;
   _narrowBarWidth = ORBarcodeData::defaultNarrowBarWidth();
@@ -1862,7 +1862,7 @@ ORGraphicsBarcodeItem::ORGraphicsBarcodeItem(QGraphicsItem * parent)
 ORGraphicsBarcodeItem::ORGraphicsBarcodeItem(const QDomNode & element, QGraphicsItem * parent)
   : ORGraphicsRectItem(parent)
 {
-  setZValue(defaultZvalue); 
+  setZValue(defaultZvalue);
   _frmt = QObject::tr("3of9");
   _align = 0;
   _narrowBarWidth = ORBarcodeData::defaultNarrowBarWidth();
@@ -2207,14 +2207,14 @@ void ORGraphicsBarcodeItem::setNarrowBarWidth(double bw)
 ORGraphicsImageItem::ORGraphicsImageItem(QGraphicsItem * parent)
   : ORGraphicsRectItem(parent)
 {
-  setZValue(defaultZvalue-1); 
+  setZValue(defaultZvalue-1);
   _img_inline = false;
 }
 
 ORGraphicsImageItem::ORGraphicsImageItem(const QDomNode & element, QGraphicsItem * parent)
   : ORGraphicsRectItem(parent)
 {
-  setZValue(defaultZvalue-1); 
+  setZValue(defaultZvalue-1);
   _img_inline = false;
 
   QDomNodeList nl = element.childNodes();
@@ -2436,28 +2436,28 @@ void ORGraphicsImageItem::setMode(QString m)
 ORGraphicsGraphItem::ORGraphicsGraphItem(QGraphicsItem * parent)
   : ORGraphicsRectItem(parent)
 {
-  setZValue(defaultZvalue); 
+  setZValue(defaultZvalue);
   _graphData.font = getDefaultEntityFont();
-  _graphData.data.query = QString::null;
-  _graphData.data.column = QString::null;
-  _graphData.title.string = QString::null;
+  _graphData.data.query = QString {};
+  _graphData.data.column = QString {};
+  _graphData.title.string = QString {};
   _graphData.title.font_defined = false;
-  _graphData.dataaxis.column = QString::null;
+  _graphData.dataaxis.column = QString {};
   _graphData.dataaxis.font_defined = false;
-  _graphData.dataaxis.title.string = QString::null;
+  _graphData.dataaxis.title.string = QString {};
   _graphData.dataaxis.title.font_defined = false;
   _graphData.valueaxis.min = 0;
   _graphData.valueaxis.max = 100;
   _graphData.valueaxis.autominmax = true;
   _graphData.valueaxis.font_defined = false;
-  _graphData.valueaxis.title.string = QString::null;
+  _graphData.valueaxis.title.string = QString {};
   _graphData.valueaxis.title.font_defined = false;
 }
 
 ORGraphicsGraphItem::ORGraphicsGraphItem(const QDomNode & element, QGraphicsItem * parent)
   : ORGraphicsRectItem(parent)
 {
-  setZValue(defaultZvalue); 
+  setZValue(defaultZvalue);
   const QDomElement elem = element.toElement();
   if(!parseReportGraphData(elem, _graphData)) {
       qDebug("Error parsing graph data. Some data may be missing or incorrect.");
@@ -2813,7 +2813,7 @@ QString ORGraphicsGraphItem::query() const
 ORGraphicsCrossTabItem::ORGraphicsCrossTabItem(QGraphicsItem * parent)
   : ORGraphicsRectItem(parent)
 {
-  setZValue(defaultZvalue); 
+  setZValue(defaultZvalue);
   m_font = getDefaultEntityFont();
 
   setColumn("column",  "column");
@@ -2839,7 +2839,7 @@ ORGraphicsCrossTabItem::ORGraphicsCrossTabItem(QGraphicsItem * parent)
 ORGraphicsCrossTabItem::ORGraphicsCrossTabItem(const QDomNode & element, QGraphicsItem * parent)
   : ORGraphicsRectItem(parent)
 {
-  setZValue(defaultZvalue); 
+  setZValue(defaultZvalue);
   m_font = getDefaultEntityFont();
 
   QDomNodeList nl = element.childNodes();
@@ -3219,7 +3219,7 @@ void ORGraphicsCrossTabItem::paint(QPainter * painter, const QStyleOptionGraphic
 
     if (sectRect.intersects(ltableRect))
     {
-      QRectF intRect = sectRect.intersect(ltableRect);
+      QRectF intRect = sectRect.intersected(ltableRect);
       painter->drawRect(intRect);
 
       // Draw table empty header

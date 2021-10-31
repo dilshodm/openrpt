@@ -47,7 +47,7 @@ void parseDatabaseURL(const QString &pDatabaseURL, QString & pProtocol, QString 
   }
   if(port <= 0)
     port = 5432;
-  pPort = QString().setNum(port);
+  pPort = QString {}.setNum(port);
 }
 
 void buildDatabaseURL(QString &pTarget, const QString & pProtocol, const QString &pServer, const QString &pDatabase, const QString &pPort)

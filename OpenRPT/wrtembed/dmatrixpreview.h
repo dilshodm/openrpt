@@ -15,7 +15,7 @@ class DMatrixPreview : public QDialog
     Q_OBJECT
 
 public:
-    explicit DMatrixPreview(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    explicit DMatrixPreview(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~DMatrixPreview();
     inline void setFormat(int format) {this->_format=format;}
 

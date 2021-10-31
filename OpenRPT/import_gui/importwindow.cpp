@@ -99,7 +99,7 @@ void ImportWindow::fileExit()
 
 void ImportWindow::sAdd()
 {
-  QStringList files = QFileDialog::getOpenFileNames(this, tr("Select one or more reports to open"), QString::null,
+  QStringList files = QFileDialog::getOpenFileNames(this, tr("Select one or more reports to open"), QString {},
                                                     tr("Report Definitions (*.xml)"));
   if(!files.isEmpty())
     for(QStringList::Iterator it = files.begin(); it != files.end(); ++it)
@@ -128,9 +128,9 @@ void ImportWindow::sImport()
     item = list.at(i);
     QString xml_file = item->text();
 
-    QString report_name  = QString::null;
-    QString report_desc  = QString::null;
-    QString report_src   = QString::null;
+    QString report_name  = QString {};
+    QString report_desc  = QString {};
+    QString report_src   = QString {};
     int     report_grade = item->data(Qt::UserRole).toInt();
 
     if(!xml_file.isEmpty())
@@ -183,7 +183,7 @@ void ImportWindow::sImport()
                 query.bindValue(":report_src",   report_src);		// MANU
                 query.bindValue(":report_grade", report_grade);	// MANU
               }
-              
+
               if(!query.exec())
               {
                 QSqlError err = query.lastError();
@@ -239,7 +239,7 @@ void ImportWindow::reportsDoubleClicked( QListWidgetItem * item )
     return;
 
   bool ok = false;
-  int grade = QInputDialog::getInteger(this, tr("Edit Grade"), tr("Grade: "), item->data(Qt::UserRole).toInt(), 0, 99, 1, &ok);
+  int grade = QInputDialog::getInt(this, tr("Edit Grade"), tr("Grade: "), item->data(Qt::UserRole).toInt(), 0, 99, 1, &ok);
   if(ok)
     item->setData(Qt::UserRole, grade);
 }

@@ -34,7 +34,7 @@ class ParameterEdit : public QWidget, public Ui::ParameterEdit
   Q_OBJECT
 
   public:
-    ParameterEdit(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    ParameterEdit(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~ParameterEdit();
 
     Q_INVOKABLE static  QDialog      *ParameterEditDialog(ParameterEdit *p, QWidget *parent = 0, Qt::WindowFlags f = Qt::Dialog);

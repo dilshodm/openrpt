@@ -38,7 +38,7 @@ class BarcodeEditor : public QDialog, public Ui::BarcodeEditor
     Q_OBJECT
 
 public:
-    BarcodeEditor(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    BarcodeEditor(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~BarcodeEditor();
 
     QString format();

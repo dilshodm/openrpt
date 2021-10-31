@@ -32,7 +32,7 @@ class SectionEditor : public QDialog, public Ui::SectionEditor
     Q_OBJECT
 
 public:
-    SectionEditor(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    SectionEditor(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~SectionEditor();
 
     void init( DocumentScene * scene );

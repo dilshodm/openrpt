@@ -27,9 +27,9 @@
 class DriverInfo {
   public:
     DriverInfo(const QString & pDriver, const QString & pName,
-               const QString & pAlias1 = QString::null,
-               const QString & pAlias2 = QString::null,
-               const QString & pAlias3 = QString::null)
+               const QString & pAlias1 = QString {},
+               const QString & pAlias2 = QString {},
+               const QString & pAlias3 = QString {})
     {
       driver = pDriver;
       name = pName;
@@ -54,7 +54,7 @@ const DriverInfo _driverInfoList[] = {
   DriverInfo("QPSQL",  "PostgreSQL", "psql", "pgsql"),
   DriverInfo("QPSQL7", "PostgreSQL"), // same as QPSQL
 
-  DriverInfo(QString::null, QString::null) // NULL record
+  DriverInfo(QString {}, QString {}) // NULL record
 };
 
 /*
@@ -64,7 +64,7 @@ const DriverInfo _driverInfoList[] = {
  *  The dialog will by default be modeless, unless you set 'modal' to
  *  true to construct a modal dialog.
  */
-loginOptions::loginOptions(QWidget* parent, const char* name, bool modal, Qt::WFlags fl)
+loginOptions::loginOptions(QWidget* parent, const char* name, bool modal, Qt::WindowFlags fl)
     : QDialog(parent, fl)
 {
   setModal(modal);

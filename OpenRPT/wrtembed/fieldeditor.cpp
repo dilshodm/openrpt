@@ -53,7 +53,7 @@ FieldEditor::FieldEditor(QWidget* parent, Qt::WindowFlags fl)
 
     leXPos->setValidator(new QDoubleValidator(0.0,100.0,3,leXPos));
     leYPos->setValidator(new QDoubleValidator(0.0,100.0,3,leYPos));
-    
+
     leWidth->setValidator(new QDoubleValidator(0.01,100.0,3,leWidth));
     leHeight->setValidator(new QDoubleValidator(0.01,100.0,3,leHeight));
 
@@ -78,10 +78,10 @@ void FieldEditor::languageChange()
 
 void FieldEditor::rbAlign_changed()
 {
-    // ok one of the radio buttons was clicked.    
+    // ok one of the radio buttons was clicked.
     // there are 8 radio buttons to check.
     // 4 in 2 groups: vertical and horizontal group
-    Qt::Alignment f = 0;
+    Qt::Alignment f;
     if(rbHAlignLeft->isChecked()) f |= Qt::AlignLeft;
     if(rbHAlignCenter->isChecked()) f |= Qt::AlignHCenter;
     if(rbHAlignRight->isChecked()) f |= Qt::AlignRight;

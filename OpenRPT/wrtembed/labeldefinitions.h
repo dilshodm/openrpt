@@ -31,7 +31,7 @@ class LabelDefinitions : public QDialog, public Ui::LabelDefinitions
     Q_OBJECT
 
 public:
-    LabelDefinitions(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    LabelDefinitions(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~LabelDefinitions();
 
 public slots:

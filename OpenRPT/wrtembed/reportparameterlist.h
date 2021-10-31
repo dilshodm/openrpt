@@ -31,7 +31,7 @@ class ReportParameterList : public QDialog, public Ui::ReportParameterList
     Q_OBJECT
 
 public:
-    ReportParameterList(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    ReportParameterList(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~ReportParameterList();
 
     virtual void setList( QMap<QString, ORParameter> * m );

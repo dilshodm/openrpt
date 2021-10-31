@@ -221,9 +221,9 @@ void renderCodeEAN13(QPainter *painter, int dpi, const QRectF & r, const QString
   painter->drawRect(QRectF(pos,top, bar_width,draw_height));
 
   QString parstr = QString("%1").arg(val[0]);
-  QString leftstr = QString().sprintf("%d%d%d%d%d%d",
+  QString leftstr = QString {}.asprintf("%d%d%d%d%d%d",
                      val[1], val[2], val[3], val[4], val[5], val[6]);
-  QString rightstr = QString().sprintf("%d%d%d%d%d%d",
+  QString rightstr = QString {}.asprintf("%d%d%d%d%d%d",
                      val[7], val[8], val[9], val[10], val[11], val[12]);
 
   painter->setFont(QFont("Arial", 6));
@@ -383,9 +383,9 @@ void renderCodeUPCA(QPainter *painter, int dpi, const QRectF & r, const QString 
 
   QString parstr = QString("%1").arg(val[1]);
   QString chkstr = QString("%1").arg(val[12]);
-  QString leftstr = QString().sprintf("%d%d%d%d%d",
+  QString leftstr = QString {}.asprintf("%d%d%d%d%d",
 		     val[2], val[3], val[4], val[5], val[6]);
-  QString rightstr = QString().sprintf("%d%d%d%d%d",
+  QString rightstr = QString {}.asprintf("%d%d%d%d%d",
 		     val[7], val[8], val[9], val[10], val[11]);
 
   painter->setFont(QFont("Arial", 6));
@@ -546,9 +546,9 @@ void renderCodeEAN8(QPainter *painter, int dpi, const QRectF & r, const QString 
   pos += (bar_width * 2.0);
   painter->drawRect(QRectF(pos,top, bar_width,draw_height));
 
-  QString leftstr = QString().sprintf("%d%d%d%d",
+  QString leftstr = QString {}.asprintf("%d%d%d%d",
 		     val[0], val[1], val[2], val[3]);
-  QString rightstr = QString().sprintf("%d%d%d%d",
+  QString rightstr = QString {}.asprintf("%d%d%d%d",
 		     val[4], val[5], val[6], val[7]);
 
   painter->setFont(QFont("Arial", 6));
@@ -683,7 +683,7 @@ void renderCodeUPCE(QPainter *painter, int dpi, const QRectF & r, const QString 
 
   QString parstr = QString("%1").arg(val[0]);
   QString chkstr = QString("%1").arg(val[7]);
-  QString leftstr = QString().sprintf("%d%d%d%d%d%d",
+  QString leftstr = QString {}.asprintf("%d%d%d%d%d%d",
 		     val[1], val[2], val[3], val[4], val[5], val[6]);
 
   painter->setFont(QFont("Arial", 6));

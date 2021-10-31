@@ -24,6 +24,8 @@
 # of the projects can be place.
 #
 
+CONFIG += c++14
+
 CONFIG += dll
 # TEMPORARY HACK
 win32 {

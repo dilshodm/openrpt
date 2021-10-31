@@ -20,6 +20,7 @@
 
 #include "parameter.h"
 #include <QtDebug>
+#include <QDate>
 
 Parameter::Parameter()
 {
@@ -102,7 +103,7 @@ void ParameterList::remove( QString &pParamName)
 	}
 
 	if (remove > 0)
-	{    
+	{
 		removeAt(remove);
 	}
 }

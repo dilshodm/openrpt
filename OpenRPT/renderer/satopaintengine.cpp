@@ -90,8 +90,8 @@ bool 	SatoPaintEngine::begin ( QPaintDevice * pdev )
 {
   Q_UNUSED(pdev);
 
-  int height = m_parentPrinter->paperRect().height() * (resolution()/72.0); // ?? doc says that paperRect() is in device coordinates, but we get it in PS points
-  int width = m_parentPrinter->paperRect().width() * (resolution()/72.0);
+  int height = m_parentPrinter->paperRect(QPrinter::DevicePixel).height() * (resolution()/72.0); // ?? doc says that paperRect() is in device coordinates, but we get it in PS points
+  int width = m_parentPrinter->paperRect(QPrinter::DevicePixel).width() * (resolution()/72.0);
 
   QString init = m_CmdPrefix + "A";
   if (height > 1780 || width > 1780) {
@@ -146,7 +146,7 @@ void 	SatoPaintEngine::addEndMessage ()
     }
   }
   if(output.isEmpty()) {
-    output = QString(m_CmdPrefix + "Q%1").arg(m_parentPrinter->numCopies());
+    output = QString(m_CmdPrefix + "Q%1").arg(m_parentPrinter->copyCount());
   }
 
   output += QString(m_CmdPrefix + "Z");
@@ -179,11 +179,11 @@ void SatoPaintEngine::drawText ( const QPointF &p, const QString & text, const Q
     }
     char fontType = nonProportional ? 'B' : 'A';
     int variation = font.italic() ? 8 : 0;
-    satoFont = QString().sprintf("$%c,%03d,%03d,%d", fontType, fontSizeInPixels, fontSizeInPixels, variation) + m_CmdPrefix + "$=";
+    satoFont = QString {}.asprintf("$%c,%03d,%03d,%d", fontType, fontSizeInPixels, fontSizeInPixels, variation) + m_CmdPrefix + "$=";
   }
 
   int pitch = (narrow | nonProportional) ? 2 : fontSizeInPixels/8;
-  QString pitchCmd = pitch<=3 ? "" : m_CmdPrefix + QString().sprintf("P%02d", pitch);
+  QString pitchCmd = pitch<=3 ? "" : m_CmdPrefix + QString {}.asprintf("P%02d", pitch);
   m_printBuffer.append(pitchCmd);
 
   QString output = QString(m_CmdPrefix + "V%1" + m_CmdPrefix + "H%2" + m_CmdPrefix + "%3" + m_CmdPrefix + "%4" + "%5\n")
@@ -198,7 +198,7 @@ void SatoPaintEngine::drawBarcode ( const QPointF & p, const QString &format, in
 {
   Q_UNUSED(width);
 
-  QString barcodeFontCmd = QString().sprintf("%02d%03d", narrowBar, height);
+  QString barcodeFontCmd = QString {}.asprintf("%02d%03d", narrowBar, height);
 
   QString barcodeFont;
   if(format == "3of9" || format == "3of9+") {
@@ -272,7 +272,7 @@ void SatoPaintEngine::drawImage ( const QRectF & rectangle, const QImage & image
         }
         output += QString(m_CmdPrefix + "V%1" + m_CmdPrefix + "H%2").arg(QString::number(yInDots+line), QString::number(xInDots+x));
         int nbOfBlocks = qMin(nbOfLines-line, blockSize)/8;
-        output += m_CmdPrefix + QString().sprintf("GH%03d%03d", 1, nbOfBlocks);
+        output += m_CmdPrefix + QString {}.asprintf("GH%03d%03d", 1, nbOfBlocks);
       }
 
       if(line<monoImage.height()) {
@@ -282,7 +282,7 @@ void SatoPaintEngine::drawImage ( const QRectF & rectangle, const QImage & image
           imageByte >>= 8-validPix;
           imageByte <<= 8-validPix;
         }
-        output.append(QString().sprintf("%02X",imageByte).toUpper());
+        output.append(QString {}.asprintf("%02X",imageByte).toUpper());
       }
       else {
         output.append("00");
@@ -325,7 +325,7 @@ void 	SatoPaintEngine::drawLines ( const QLineF * lines, int lineCount )
       thickness = 1;
     }
     int length = (int) lines[i].length();
-    QString end = QString().sprintf("FW%02dH%04d", thickness, length);
+    QString end = QString {}.asprintf("FW%02dH%04d", thickness, length);
 
     QString output = QString(m_CmdPrefix + "V%1" + m_CmdPrefix + "H%2" + m_CmdPrefix + "%3" + m_CmdPrefix + "%4\n")
                           .arg(QString::number(yInDots), QString::number(xInDots), rotation, end);
@@ -355,7 +355,7 @@ void 	SatoPaintEngine::drawRects ( const QRectF * rects, int rectCount )
       if(thickness<=0) {
         thickness = 1;
       }
-      QString end = QString().sprintf("FW%02d%02dV%04dH%04d", thickness, thickness, height, width);
+      QString end = QString {}.asprintf("FW%02d%02dV%04dH%04d", thickness, thickness, height, width);
 
       QString output = QString(m_CmdPrefix + "V%1" + m_CmdPrefix + "H%2" + m_CmdPrefix + "%3" + m_CmdPrefix + "%4\n")
                             .arg(QString::number(yInDots), QString::number(xInDots), rotation, end);

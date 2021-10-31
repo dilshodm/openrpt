@@ -19,6 +19,7 @@
  */
 
 #include <QtGui>
+#include <QRegExp>
 
 #include "orprerender.h"
 #include "renderobjects.h"
@@ -121,7 +122,7 @@ class ORPreRenderPrivate {
     void renderDetailSection(ORDetailSectionData &);
     qreal renderSection(const ORSectionData &);
     qreal renderTextElements(QList<ORObject*> elemList, qreal sectionHeight);
-    void addTextPrimitive(ORObject *element, QPointF pos, QSizeF size, int align, QString text, QFont font = QFont(), QString color = QString());
+    void addTextPrimitive(ORObject *element, QPointF pos, QSizeF size, int align, QString text, QFont font = QFont(), QString color = QString {});
     QString evaluateField(ORFieldData* f, QString* outColorStr);
     qreal renderSectionSize(const ORSectionData &, bool = false);
 
@@ -148,17 +149,17 @@ ORPreRenderPrivate::ORPreRenderPrivate()
   _maxHeight = _maxWidth = 0.0;
 
   _wmStatic = true;
-  _wmText = QString::null;
-  _wmData.query = QString::null;
-  _wmData.column = QString::null;
+  _wmText = QString {};
+  _wmData.query = QString {};
+  _wmData.column = QString {};
   _wmUseDefaultFont = true;
   _wmFont = QFont("Helvetic");
   _wmOpacity = 25;
 
   _bgStatic = true;
   _bgImage = QImage();
-  _bgData.query = QString::null;
-  _bgData.column = QString::null;
+  _bgData.query = QString {};
+  _bgData.column = QString {};
   _bgOpacity = 25;
   _bgAlign = Qt::AlignLeft | Qt::AlignTop;
   _bgScale = false;
@@ -454,7 +455,7 @@ qreal ORPreRenderPrivate::finishCurPage(bool lastPage)
 // RenderDetailSection
 //   Render a detailed section. A detailed section can contain groups. These
 //   have to be rendered too.
-// 
+//
 //   In this code a query is connected to a detail section.
 //   TODO: add data limit to query
 //   The data of a section can be one image. The section should get grow and
@@ -498,7 +499,7 @@ void ORPreRenderPrivate::renderDetailSection(ORDetailSectionData & detailData)
         }
         keys.append(grp->column);
         if(!keys[i].isEmpty()) keyValues.append(query->value(keys[i]).toString());
-        else keyValues.append(QString());
+        else keyValues.append(QString {});
         _subtotContextMap = &(grp->_subtotCheckPoints);
         if(grp->head)
           renderSection(*(grp->head));
@@ -723,7 +724,7 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
       pos += QPointF(_leftMargin, _yOffset);
       size /= 100.0;
 
-      addTextPrimitive(elemThis, pos, size, l->align, qApp->translate(_reportData->name.toUtf8().data(), l->string.toUtf8().data(), 0, QCoreApplication::UnicodeUTF8), l->font);
+      addTextPrimitive(elemThis, pos, size, l->align, qApp->translate(_reportData->name.toUtf8().data(), l->string.toUtf8().data(), 0), l->font);
     }
     else if (elemThis->isField())
     {
@@ -775,11 +776,11 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
 
           if (xqry->isValid() || (nbOfCol == 1 && nbOfLines == 1))
           {
-            QString colorStr = QString::null;
+            QString colorStr = QString {};
             QString text = evaluateField(elemThis->toField(), &colorStr);
             addTextPrimitive(elemThis, QPointF(x, y), size, f->align, text, f->font, colorStr);
           }
-          else 
+          else
             break;
 
           if(nbOfCol > 1 || nbOfLines > 1 || triggerPageBreak) {
@@ -846,7 +847,7 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
       QString uudata = im->inline_data;
       QByteArray imgdata;
 
-      if(uudata == QString::null)
+      if(uudata == QString {})
       {
         orData dataThis;
         populateData(im->data, dataThis);
@@ -1000,7 +1001,7 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
 
           // If the emptyHeight is smaller than the table it will not be the last
           // page. Recalculate.
-  
+
           // ToDo: Calculate remaining table size
           QRect tableSize;
           crossTab.CalculateTableSize (tableSize);
@@ -1043,7 +1044,7 @@ qreal ORPreRenderPrivate::renderSection(const ORSectionData & sectionData)
             // Calculate remaining space on page
             qreal emptyHeight = calculateRemainingPageSize(true);
             emptyHeight *= 100;
-        
+
             // Calculate minimal size needed for the table
             int nextRowSize(0);
             crossTab.CalculateNextRowSize (nextRowSize);
@@ -1178,7 +1179,7 @@ QString ORPreRenderPrivate::evaluateField(ORFieldData* f, QString* outColorStr)
 {
     orData       dataThis;
 
-    QString str = QString::null;
+    QString str = QString {};
     double d_val = 0;
     bool isFloat = false;
 
@@ -1225,15 +1226,15 @@ QString ORPreRenderPrivate::evaluateField(ORFieldData* f, QString* outColorStr)
     {
         if(!f->builtinFormat)
         {
-            str = isFloat ? QString().sprintf(f->format.toLatin1().data(), d_val)
-                          : QString().sprintf(f->format.toLatin1().data(), str.toLatin1().data());
+            str = isFloat ? QString {}.asprintf(f->format.toLatin1().data(), d_val)
+                          : QString {}.asprintf(f->format.toLatin1().data(), str.toLatin1().data());
         }
         else
         {
             if ((_database.driverName() != "QOCI8") && (_database.driverName() != "QOCI"))
-                str = QString().sprintf(getSqlFromTag("fmt02",_database.driverName()).toLatin1().data(),getFunctionFromTag(f->format).toLatin1().data(), d_val);
+                str = QString {}.asprintf(getSqlFromTag("fmt02",_database.driverName()).toLatin1().data(),getFunctionFromTag(f->format).toLatin1().data(), d_val);
             else
-                str = QString().sprintf(getSqlFromTag("fmt02",_database.driverName()).toLatin1().data(), d_val);
+                str = QString {}.asprintf(getSqlFromTag("fmt02",_database.driverName()).toLatin1().data(), d_val);
         }
 
         if(f->builtinFormat)
@@ -1242,7 +1243,7 @@ QString ORPreRenderPrivate::evaluateField(ORFieldData* f, QString* outColorStr)
             if(q.first())
                 str = q.value(0).toString();
             else
-                str = QString::null;
+                str = QString {};
         }
     }
 
@@ -1425,7 +1426,7 @@ ORODocument* ORPreRender::generate()
   if(_internal->_database.driverName()== "QOCI")
 	  tQuery.replace("from dual","");
 
-  QString val = QString::null;
+  QString val = QString {};
   QRegExp re("'");
   for(int t = 0; t < _internal->_lstParameters.count(); t++)
   {
@@ -1433,27 +1434,27 @@ ORODocument* ORPreRender::generate()
     val = p.value().toString();
     val = val.replace(re, "''");
     if (_internal->_database.driverName() == "QMYSQL")
-      tQuery += QString().sprintf(", \"%s\" AS \"%d\"", val.toLatin1().data(), t + 1);
+      tQuery += QString {}.asprintf(", \"%s\" AS \"%d\"", val.toLatin1().data(), t + 1);
 	else if (_internal->_database.driverName() == "QOCI")
-		tQuery += QString().sprintf(", '%s' AS \"%d\"", val.toLatin1().data(), t + 1);
+		tQuery += QString {}.asprintf(", '%s' AS \"%d\"", val.toLatin1().data(), t + 1);
     else
-      tQuery += QString().sprintf(", text('%s') AS \"%d\"", val.toLatin1().data(), t + 1);
+      tQuery += QString {}.asprintf(", text('%s') AS \"%d\"", val.toLatin1().data(), t + 1);
 
     if(!p.name().isEmpty())
     {
       if (_internal->_database.driverName() == "QMYSQL" )
-        tQuery += QString().sprintf(", \"%s\" AS \"%s\"", val.toLatin1().data(), p.name().toLatin1().data());
+        tQuery += QString {}.asprintf(", \"%s\" AS \"%s\"", val.toLatin1().data(), p.name().toLatin1().data());
 	  else if ( _internal->_database.driverName() == "QOCI")
-		  tQuery += QString().sprintf(", '%s' AS \"%s\"", val.toLatin1().data(), p.name().toLatin1().data());
+		  tQuery += QString {}.asprintf(", '%s' AS \"%s\"", val.toLatin1().data(), p.name().toLatin1().data());
       else
-        tQuery += QString().sprintf(", text('%s') AS \"%s\"", val.toLatin1().data(), p.name().toLatin1().data());
+        tQuery += QString {}.asprintf(", text('%s') AS \"%s\"", val.toLatin1().data(), p.name().toLatin1().data());
     }
   }
   if(_internal->_database.driverName() == "QOCI")
 	tQuery.push_back(" from dual");
 
   _internal->_lstQueries.append(new orQuery("Parameter Query", tQuery, ParameterList(), true, _internal->_database));
-  
+
   QuerySource * qs = 0;
   for(unsigned int i = 0; i < _internal->_reportData->queries.size(); i++) {
       qs = _internal->_reportData->queries.get(i);
@@ -1611,22 +1612,20 @@ bool ORPreRender::setDom(const QDomDocument & docReport)
     {
       _internal->_valid = true;
 
-      QList<ORParameter> vSATO = _internal->_reportData->definedParams.values("$SATO");
-      QList<ORParameter> vZEBRA = _internal->_reportData->definedParams.values("$ZEBRA");
-      if(!vSATO.isEmpty()) {
+      if(_internal->_reportData->definedParams.contains("$SATO")) {
         _internal->_printerType = ReportPrinter::Sato;
-        _internal->_printerParams = vSATO.first().values;
+        _internal->_printerParams = _internal->_reportData->definedParams.value("$SATO").values;
       }
-      else if(!vZEBRA.isEmpty()) {
+      else if(_internal->_reportData->definedParams.contains("$ZEBRA")) {
         _internal->_printerType = ReportPrinter::Zebra;
-        _internal->_printerParams = vZEBRA.first().values;
+        _internal->_printerParams = _internal->_reportData->definedParams.value("$ZEBRA").values;
       }
 
       // make sure all the watermark values are at their defaults
       _internal->_wmStatic = true;
-      _internal->_wmText = QString::null;
-      _internal->_wmData.query = QString::null;
-      _internal->_wmData.column = QString::null;
+      _internal->_wmText = QString {};
+      _internal->_wmData.query = QString {};
+      _internal->_wmData.column = QString {};
       _internal->_wmUseDefaultFont = true;
       _internal->_wmFont = QFont("Arial");
       _internal->_wmOpacity = 25;
@@ -1650,8 +1649,8 @@ bool ORPreRender::setDom(const QDomDocument & docReport)
       // mark sure all the background values are at their defaults
       _internal->_bgStatic = true;
       _internal->_bgImage = QImage();
-      _internal->_bgData.query = QString::null;
-      _internal->_bgData.column = QString::null;
+      _internal->_bgData.query = QString {};
+      _internal->_bgData.column = QString {};
       _internal->_bgOpacity = 25;
       _internal->_bgAlign = Qt::AlignLeft | Qt::AlignTop;
       _internal->_bgScale = false;
@@ -1689,7 +1688,7 @@ bool ORPreRender::setDom(const QDomDocument & docReport)
       }
     }
   }
-  return isValid(); 
+  return isValid();
 }
 
 void ORPreRender::setParamList(const ParameterList & pParams)
@@ -1727,13 +1726,13 @@ bool ORPreRender::doParamsSatisfy() const
     if(qry.missingParamList.count() > 0)
       return false;
   }
-  
+
   return true;
 }
 
 QString ORPreRender::watermarkText() const
 {
-  return ( _internal != 0 ? _internal->_wmText : QString::null );
+  return ( _internal != 0 ? _internal->_wmText : QString {} );
 }
 
 void ORPreRender::setWatermarkText(const QString & txt)

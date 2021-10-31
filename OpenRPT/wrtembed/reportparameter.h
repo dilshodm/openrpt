@@ -31,7 +31,7 @@ class ReportParameter : public QDialog, public Ui::ReportParameter
     Q_OBJECT
 
 public:
-    ReportParameter(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    ReportParameter(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~ReportParameter();
 
 public slots:

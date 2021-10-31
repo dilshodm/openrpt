@@ -30,7 +30,7 @@ class TextEditor : public QDialog, public Ui::TextEditor
     Q_OBJECT
 
 public:
-    TextEditor(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    TextEditor(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~TextEditor();
 
 public slots:

@@ -32,7 +32,7 @@ class loginOptions : public QDialog, public Ui::loginOptions
     Q_OBJECT
 
 public:
-    loginOptions(QWidget* parent = 0, const char* name = 0, bool modal = false, Qt::WFlags fl = 0);
+    loginOptions(QWidget* parent = 0, const char* name = 0, bool modal = false, Qt::WindowFlags fl = Qt::WindowFlags());
     ~loginOptions();
 
     QString _databaseURL;

@@ -61,9 +61,7 @@ void ResultsOutput::copy()
     {
       if (j)
         bytes += ",";
-      bytes += "\"" +
-              model->data(model->index(i, j)).toString().replace("\"", "\"\"") +
-              "\"";
+      bytes += QString("\"%1\"").arg(model->data(model->index(i, j)).toString().replace("\"", "\"\""));
     }
     bytes += "\n";
   }

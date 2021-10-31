@@ -85,9 +85,9 @@ void GraphWindow::_btnClear_clicked()
 {
     _noUpdate = true;
     for(int r = 0; r < _labelTable->rowCount(); r++) {
-        _labelTable->item(r, 0)->setText(QString::null);
+        _labelTable->item(r, 0)->setText(QString {});
         for(int c = 0; c < _dataTable->columnCount(); c++) {
-            _dataTable->item(r, c)->setText(QString::null);
+            _dataTable->item(r, c)->setText(QString {});
         }
     }
     _graph->clear();

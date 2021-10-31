@@ -31,7 +31,7 @@ class ColorEditor : public QDialog, public Ui::ColorEditor
     Q_OBJECT
 
 public:
-    ColorEditor(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    ColorEditor(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~ColorEditor();
 
 public slots:

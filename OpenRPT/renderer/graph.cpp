@@ -123,7 +123,7 @@ class tGraph {
 
         void repaint();
 
-        virtual void draw(QPainter &); 
+        virtual void draw(QPainter &);
 
     protected:
         GReferences _data;
@@ -164,9 +164,9 @@ tGraph::tGraph(const QRect & r) {
     _hPadding = 5;
     _vPadding = 5;
 
-    _dataLabel = QString::null;
-    _valueLabel = QString::null;
-    _title = QString::null;
+    _dataLabel = QString {};
+    _valueLabel = QString {};
+    _title = QString {};
 
     _minValue = 0.0;
     _maxValue = 100.0;
@@ -520,12 +520,12 @@ void tGraph::draw(QPainter & paint) {
     }
     fm = QFontMetrics(dataFont());
     double tlh = 0.0;
-    
+
     QMapIterator<int, GReference> dlit(_data);
     while(dlit.hasNext())
     {
         dlit.next();
-        tlh = qMax(sin45deg * fm.width(dlit.value().first), tlh);
+        tlh = qMax(sin45deg * fm.boundingRect(dlit.value().first).width(), tlh);
     }
     // don't change this variable as we use it later
     int th = (tlh == 0.0 ? 0 : (int)(tlh + (fm.height() * sin45deg)) + 2);
@@ -546,12 +546,12 @@ void tGraph::draw(QPainter & paint) {
 
     fm = QFontMetrics(valueFont());
 
-    QString min_str = QString().sprintf("%-.0f",minValue());
-    QString org_str = ( minValue() == 0.0 ? QString::null : QString("0") );
-    QString max_str = QString().sprintf("%-.0f",maxValue());
+    QString min_str = QString {}.asprintf("%-.0f",minValue());
+    QString org_str = ( minValue() == 0.0 ? QString {} : QString("0") );
+    QString max_str = QString {}.asprintf("%-.0f",maxValue());
 
-    int width = qMax(fm.width(min_str), fm.width(max_str));
-    if(org_str.length() > 0) width = qMax(width, fm.width(org_str));
+    int width = qMax(fm.boundingRect(min_str).width(), fm.boundingRect(max_str).width());
+    if(org_str.length() > 0) width = qMax(width, fm.boundingRect(org_str).width());
 
     gx1 += width;
 
@@ -561,16 +561,16 @@ void tGraph::draw(QPainter & paint) {
 
     paint.setFont(valueFont());
     int tfa = Qt::AlignTop | Qt::AlignRight;
-    paint.drawText(gx1 - (fm.width(min_str)+1), gy_min, fm.width(min_str)+1, fm.height(), tfa, min_str);
+    paint.drawText(gx1 - (fm.boundingRect(min_str).width()+1), gy_min, fm.boundingRect(min_str).width()+1, fm.height(), tfa, min_str);
     paint.drawLine(gx1 - 3, gy_min, gx1 + 2, gy_min);
-    paint.drawText(gx1 - (fm.width(max_str)+1), gy_max, fm.width(max_str)+1, fm.height(), tfa, max_str);
+    paint.drawText(gx1 - (fm.boundingRect(max_str).width()+1), gy_max, fm.boundingRect(max_str).width()+1, fm.height(), tfa, max_str);
     paint.drawLine(gx1 - 3, gy_max, gx1 + 2, gy_max);
     int gheight = gy2 - gy1;
     double grng = maxValue() - minValue();
     if(org_str.length() > 0) {
         double perc = (0 - minValue()) / grng;
         gy_org = gy2 - (int)(perc * (double)gheight);
-        paint.drawText(gx1 - fm.width(org_str), gy_org, fm.width(org_str), fm.height(), tfa, org_str);
+        paint.drawText(gx1 - fm.boundingRect(org_str).width(), gy_org, fm.boundingRect(org_str).width(), fm.height(), tfa, org_str);
         paint.drawLine(gx1 - 3, gy_org, gx1 + 2, gy_org);
     }
 
@@ -620,7 +620,7 @@ void tGraph::draw(QPainter & paint) {
                 last_label_at = pos + refwidth_div_2;
                 int lx = (int)(((pos + refwidth_div_2) * cos45deg) - ((gy2 + label_offset) * sin45deg));
                 int ly = (int)(((pos + refwidth_div_2) * sin45deg) + ((gy2 + label_offset) * cos45deg));
-                int fmwidth = fm.width(label);
+                int fmwidth = fm.boundingRect(label).width();
                 paint.save();
                 paint.rotate(-45);
                 paint.drawText(lx - fmwidth, ly - fmheight_div_2, fmwidth, fmheight, Qt::AlignRight | Qt::AlignTop, label);
@@ -652,7 +652,7 @@ void tGraph::draw(QPainter & paint) {
                             bar_height = (int)((tval.second / minValue()) * (gy_org - gy_min));
                         } else {
                             bar_height = (int)((tval.second / maxValue()) * (gy_org - gy_max));
-                        } 
+                        }
                         paint.fillRect(pos + buf, gy_org - bar_height, refwidth - buf2, bar_height, getSetColor(tval.first));
                     }
                 }

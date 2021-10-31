@@ -113,7 +113,7 @@ void ImportWindow::fileExit()
 
 void ImportWindow::sAdd()
 {
-  QStringList files = QFileDialog::getOpenFileNames(this, tr("Select one or more MetaSQL files to open"), QString::null,
+  QStringList files = QFileDialog::getOpenFileNames(this, tr("Select one or more MetaSQL files to open"), QString {},
                                                     tr("MetSQL (*.mql)"));
   if(!files.isEmpty())
     for(QStringList::Iterator it = files.begin(); it != files.end(); ++it)
@@ -163,10 +163,10 @@ void ImportWindow::sImport()
     QListWidgetItem * item = list.at(i);
     QString xml_file = item->text();
 
-    QString metasql_name  = QString::null;
-    QString metasql_group = QString::null;
-    QString metasql_desc  = QString::null;
-    QString metasql_src   = QString::null;
+    QString metasql_name  = QString {};
+    QString metasql_group = QString {};
+    QString metasql_desc  = QString {};
+    QString metasql_src   = QString {};
 
     if(!xml_file.isEmpty())
     {
@@ -190,7 +190,7 @@ void ImportWindow::sImport()
             query.bindValue(":group", metasql_group);
             query.bindValue(":notes", metasql_desc);
             query.bindValue(":query", metasql_src);
-            query.bindValue(":system",QVariant(false)); 
+            query.bindValue(":system",QVariant(false));
             query.bindValue(":schema",(_schema->currentText().isEmpty() ? "public" : _schema->currentText()));
             if(!query.exec())
             {

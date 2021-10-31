@@ -84,7 +84,7 @@ void LabelPaintEngine::drawTextItem ( const QPointF & p, const QTextItem & textI
 bool LabelPaintEngine::isProportionnal ( const QFont &font ) const
 {
   QFontMetrics fm(font);
-  return fm.width("i") < fm.width("w");
+  return fm.boundingRect("i").width() < fm.boundingRect("w").width();
 }
 
 

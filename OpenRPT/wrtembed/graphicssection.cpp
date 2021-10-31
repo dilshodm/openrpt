@@ -156,7 +156,7 @@ void ORGraphicsSectionItem::buildXML(QDomDocument & doc, QDomElement & section)
   section.appendChild(height);
 
   // now get a list of all the QCanvasItems on this canvas and output them.
-  QList<QGraphicsItem *> list = children();
+  QList<QGraphicsItem *> list = childItems();
   for(int i = 0; i < list.size(); i++)
   {
     ORGraphicsRectItem::buildXML(list.at(i), doc, section);
@@ -397,7 +397,7 @@ void ORGraphicsSectionDetail::initFromXML(QDomNode & section)
 
   // some code to handle old style defs
   QString o_name = "unnamed";
-  QString o_column = QString::null;
+  QString o_column = QString {};
   bool old_head = false;
   QDomNode o_head;
   bool old_foot = false;

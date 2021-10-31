@@ -84,7 +84,7 @@ QString getItemFontSize(QGraphicsItem *gi)
 {
     QFont font = getItemFont(gi);
 
-    if(font.family().isEmpty()) 
+    if(font.family().isEmpty())
         return "";
 
     return QString("%1").arg(font.pointSize());
@@ -111,7 +111,7 @@ void setItemFontFamily(QGraphicsItem *gi, const QString s)
 void setItemFontSize(QGraphicsItem *gi, const QString s)
 {
     int size = s.toInt();
-    if(s<=0) 
+    if(size<=0)
         return;
 
     QFont font = getItemFont(gi);

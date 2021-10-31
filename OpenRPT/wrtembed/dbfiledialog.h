@@ -31,7 +31,7 @@ class DBFileDialog : public QDialog, public Ui::DBFileDialog
     Q_OBJECT
 
 public:
-    DBFileDialog(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    DBFileDialog(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~DBFileDialog();
 
 public slots:

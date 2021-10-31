@@ -35,7 +35,7 @@ const int spacing = 30;
 ///////////////////////////////////////////////////////////////////////////////
 // PreviewDialog()
 ///////////////////////////////////////////////////////////////////////////////
-/// Construct a PreviewDialog object. 
+/// Construct a PreviewDialog object.
 ///////////////////////////////////////////////////////////////////////////////
 
 PreviewDialog::PreviewDialog(ORODocument *document,
@@ -67,7 +67,7 @@ PreviewDialog::PreviewDialog(ORODocument *document,
     // layouts
     QVBoxLayout *mainlayout = new QVBoxLayout(this);
     QHBoxLayout *buttonlayout = new QHBoxLayout();
-    
+
     buttonlayout->addWidget(zoominbutton);
     buttonlayout->addWidget(zoomoutbutton);
     buttonlayout->addStretch(10);
@@ -230,7 +230,7 @@ void PreviewWidget::paintEvent(QPaintEvent *)
         qreal xDpi = parentWidget()->logicalDpiX();
         qreal yDpi = parentWidget()->logicalDpiY();
 
-        QSize margins(_pPrinter->paperRect().left() - _pPrinter->pageRect().left(), _pPrinter->paperRect().top() - _pPrinter->pageRect().top());
+        QSize margins(_pPrinter->paperRect(QPrinter::DevicePixel).left() - _pPrinter->pageRect(QPrinter::DevicePixel).left(), _pPrinter->paperRect(QPrinter::DevicePixel).top() - _pPrinter->pageRect(QPrinter::DevicePixel).top());
 
         ORPrintRender::renderPage(_doc, page, &painter, xDpi, yDpi, margins, 100);
 
@@ -270,7 +270,7 @@ void PreviewWidget::resizeEvent(QResizeEvent *)
 QRectF PreviewWidget::paperRect(QPaintDevice *device)
 {
     // calculate size of paper
-    QRectF rect = _pPrinter->paperRect();
+    QRectF rect = _pPrinter->paperRect(QPrinter::DevicePixel);
     // adjust for DPI
     rect.setWidth(rect.width() *
         device->logicalDpiX() / _pPrinter->logicalDpiX());

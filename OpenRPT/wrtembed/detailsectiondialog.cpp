@@ -63,7 +63,7 @@ void DetailSectionDialog::btnAdd_clicked()
     while(i < 100 && _gsd->findSection(name) != -1)
     {
       i++;
-      name = tr("unnamed") + QString().sprintf("%d", i);
+      name = tr("unnamed") + QString {}.asprintf("%d", i);
     }
     if(_gsd->findSection(name) != -1)
     {

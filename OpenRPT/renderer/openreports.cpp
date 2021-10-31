@@ -370,7 +370,7 @@ bool orReport::exportToPDF( const QString& fileName )
 
 QString orReport::watermarkText()
 {
-  return ( _internal != 0 ? _internal->_prerenderer.watermarkText() : QString::null );
+  return ( _internal != 0 ? _internal->_prerenderer.watermarkText() : QString {} );
 }
 
 void orReport::setWatermarkText(const QString & txt)
@@ -504,7 +504,7 @@ void orReport::setParamList(const QStringList & lstPParameters)
 {
   ParameterList plist;
   for(int t = 0; t < lstPParameters.count(); t++)
-    plist.append(Parameter(QString(), lstPParameters[t]));
+    plist.append(Parameter(QString {}, lstPParameters[t]));
 
   setParamList(plist);
 }
@@ -558,10 +558,10 @@ qDebug("orReport[_wrapper]::satisfyParams() not implemented");
   if(mlist.count() == 0) return true; // if the params satisfy then no reason to go further
 
   bool ok = false;
-  QString ret = QString::null;
+  QString ret = QString {};
   for(it = mlist.begin(); it != mlist.end(); it++) {
       ret = QInputDialog::getText(QObject::tr("Missing Report Parameter"), QString(QObject::tr("Enter in a value for the parameter \"%1\":")).arg(*it),
-                                   QLineEdit::Normal, QString::null, &ok, widget);
+                                   QLineEdit::Normal, QString {}, &ok, widget);
       if(!ok || ret.isEmpty()) return false;
       _internal->_lstParameters.append(Parameter(*it, ret));
   }

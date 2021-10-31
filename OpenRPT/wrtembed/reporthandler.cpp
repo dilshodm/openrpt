@@ -67,7 +67,6 @@
 #include <QInputDialog>
 #include <QSpinBox>
 #include <QMouseEvent>
-#include <QDesktopWidget>
 #include <QPrintDialog>
 #include <QGraphicsScene>
 #include <QGraphicsView>
@@ -214,8 +213,13 @@ ReportHandler::ReportHandler(QObject * parent, const char * name)
 
   Q_INIT_RESOURCE(OpenRPTWrtembed);
 
-  gridOptions = new ReportGridOptions(qApp->desktop()->logicalDpiX(),
-                                      qApp->desktop()->logicalDpiY(),
+  const QWidget *p = dynamic_cast<QWidget *>(parent);
+  const QScreen *screen = qApp->screens().at(0);
+  if (p) {
+      screen = qApp->screenAt(p->mapToGlobal(QPoint(p->x() /2, p->y() /2)));
+  }
+  gridOptions = new ReportGridOptions(screen->logicalDotsPerInchX(),
+                                      screen->logicalDotsPerInchY(),
                                       this, "grid options");
   sectionData = new ReportWriterSectionData();
 
@@ -361,7 +365,7 @@ ReportHandler::ReportHandler(QObject * parent, const char * name)
 
   grpFont = new QActionGroup(this);
   grpFont->setExclusive(false);
-  
+
   grpProperties = new QActionGroup(this);
   colorAction = new QAction(tr("Color"), grpProperties);
   fillAction = new QAction(tr("Fill"), grpProperties);
@@ -461,7 +465,7 @@ void ReportHandler::docToolBars(QMainWindow * mw, int /*edge*/, bool /*newLine*/
     tbEdit->addAction(editCopyAction);
     tbEdit->addAction(editPasteAction);
     tbEdit->addAction(editDeleteAction);
-  
+
     QToolBar * tbOptions = mw->addToolBar(tr("Layout Options"));
     tbOptions->setObjectName("tbOptions");
     tbOptions->setIconSize(QSize(32, 32));
@@ -494,7 +498,7 @@ void ReportHandler::docToolBars(QMainWindow * mw, int /*edge*/, bool /*newLine*/
     sizesList << "6" << "7" << "8" << "9" << "10" << "11" << "12" << "14" << "16" << "18" << "20" << "24" << "28" << "36" << "48" << "72";
     lcbFontSize->addItems(sizesList);
     lcbFontSize->clearEditText();
-  
+
     QPushButton * lbtFontWeight = new QPushButton(tr("B"));
     lbtFontWeight->setObjectName("font_weight");
     lbtFontWeight->setFixedWidth(24);
@@ -502,7 +506,7 @@ void ReportHandler::docToolBars(QMainWindow * mw, int /*edge*/, bool /*newLine*/
     QFont font = lbtFontWeight->font();
     font.setBold(true);
     lbtFontWeight->setFont(font);
-  
+
     QPushButton * lbtFontStyle = new QPushButton(tr("i"));
     lbtFontStyle->setObjectName("font_style");
     lbtFontStyle->setFixedWidth(24);
@@ -520,8 +524,8 @@ void ReportHandler::docToolBars(QMainWindow * mw, int /*edge*/, bool /*newLine*/
     tbFont->setObjectName("tbFont");
     grpFont->addAction(tbFont->addWidget(lcbFont));
     grpFont->addAction(tbFont->addWidget(lcbFontSize));
-    grpFont->addAction(tbFont->addWidget(lbtFontWeight));   
-    grpFont->addAction(tbFont->addWidget(lbtFontStyle));       
+    grpFont->addAction(tbFont->addWidget(lbtFontWeight));
+    grpFont->addAction(tbFont->addWidget(lbtFontStyle));
   }
 }
 
@@ -615,7 +619,7 @@ void ReportHandler::updateSelectedEntity()
 {
   if(selectionCount() > 0)
   {
-    QString message = QString::null;
+    QString message = QString {};
     if(selectionCount() == 1)
     {
       DocumentWindow * gw = activeDocumentWindow();
@@ -727,7 +731,7 @@ void ReportHandler::fileOpen()
   // ok first we need to get a file to open.
   QString file = QFileDialog::getOpenFileName(
         0, tr("Open File"),
-        QString::null, tr("XML (*.xml)") );
+        QString {}, tr("XML (*.xml)") );
   fileOpen(file);
 }
 
@@ -755,7 +759,7 @@ void ReportHandler::fileOpen(const QString &fileName)
   {
     // ERROR
     QMessageBox::critical(0, tr("Failed read on Open File"),
-        QString().sprintf(tr("Encountered and error while parsing %s\n\n\t%s (Line %d Column %d)").toLatin1().constData(),file.toLatin1().data(),errMsg.toLatin1().data(),errLine,errCol));
+        QString {}.asprintf(tr("Encountered and error while parsing %s\n\n\t%s (Line %d Column %d)").toLatin1().constData(),file.toLatin1().data(),errMsg.toLatin1().data(),errLine,errCol));
   }
   delete f;
 }
@@ -848,7 +852,7 @@ void ReportHandler::editUndo()
 void ReportHandler::editRedo()
 {
     DocumentWindow * gw = activeDocumentWindow();
-    if(gw) {        
+    if(gw) {
         bool ok = gw->_scene->redo();
         if(!ok) {
             QMessageBox::information(gw, tr("Redo"), tr("Nothing to redo"));
@@ -859,7 +863,7 @@ void ReportHandler::editRedo()
 void ReportHandler::editZoomIn()
 {
     DocumentWindow * gw = activeDocumentWindow();
-    if(gw) {        
+    if(gw) {
         gw->_view->zoom(500);
     }
 }
@@ -867,7 +871,7 @@ void ReportHandler::editZoomIn()
 void ReportHandler::editZoomOut()
 {
     DocumentWindow * gw = activeDocumentWindow();
-    if(gw) {        
+    if(gw) {
         gw->_view->zoom(-500);
     }
 }
@@ -1180,7 +1184,7 @@ void ReportHandler::editPaste(const QPointF & pos)
       ent->setRect(0, 0, cp.copy_rect.width(),cp.copy_rect.height());
       pasted_ent = ent;
     }
-    else 
+    else
     {
       qDebug("tried to paste an item I don't understand.");
     }
@@ -1258,7 +1262,7 @@ void ReportHandler::editProperties()
           break;
       };
     }
-  }  
+  }
 }
 
 
@@ -1344,9 +1348,9 @@ void ReportHandler::itemLine() {
     sectionData->insertItem = ReportWriterSectionData::LineItem;
 }
 
-void ReportHandler::itemCrossTab() {                                                                                         
-    sectionData->mouseAction = ReportWriterSectionData::MA_Insert;                                                           
-    sectionData->insertItem = ReportWriterSectionData::CrossTabItem;                                                         
+void ReportHandler::itemCrossTab() {
+    sectionData->mouseAction = ReportWriterSectionData::MA_Insert;
+    sectionData->insertItem = ReportWriterSectionData::CrossTabItem;
 }
 
 void ReportHandler::itemRect() {
@@ -1500,7 +1504,7 @@ void ReportHandler::dbLoadDoc() {
                 }
             } else {
                 QMessageBox::warning(0, tr("Error Loading Report"),
-                    QString().sprintf(tr("ReportWriterWindow::dbLoadDoc() : ERROR on setContent()\n\t%s (Line %d Column %d)").toLatin1().constData(),errMsg.toLatin1().data(),errLine,errCol));
+                    QString {}.asprintf(tr("ReportWriterWindow::dbLoadDoc() : ERROR on setContent()\n\t%s (Line %d Column %d)").toLatin1().constData(),errMsg.toLatin1().data(),errLine,errCol));
             }
         }
     } else {
@@ -1633,7 +1637,7 @@ void ReportHandler::print(bool showPreview)
     ORPrintRender render;
     render.setupPrinter(doc, &printer);
 
-    if(showPreview) 
+    if(showPreview)
     {
       if(printer.printerName().isEmpty()) { // no default printer
         QPrintDialog pd(&printer);
@@ -1644,7 +1648,7 @@ void ReportHandler::print(bool showPreview)
       }
 
       PreviewDialog preview (doc, &printer, mw);
-      if (preview.exec() == QDialog::Rejected) 
+      if (preview.exec() == QDialog::Rejected)
         return;
     }
 
@@ -1679,7 +1683,7 @@ void ReportHandler::filePrintToPDF()
 
 void ReportHandler::filePrintToPDF(QWidget *wnd, const QDomDocument & doc, QString & pdfFileName)
 {
-  if(pdfFileName.isEmpty()) 
+  if(pdfFileName.isEmpty())
     return;
 
   if ( QFileInfo( pdfFileName ).suffix().isEmpty() )
@@ -1843,7 +1847,7 @@ void ReportHandler::buildItemContextMenu(QMenu * menu)
     createSectionActions();
     QMenu *sectionsMenu = menu->addMenu(tr("Section"));
     sectionsMenu->addActions(m_SectionActions);
-  } 
+  }
 }
 
 QPointF ReportHandler::getCopyPoint() const
@@ -1856,8 +1860,8 @@ void ReportHandler::setCopyPoint(const QPointF & p)
   sectionData->copy_pos = p;
 }
 
-//////////////////////////////////////////////////////////////////////////////                                               
-// Description                                                                                                               
+//////////////////////////////////////////////////////////////////////////////
+// Description
 //   Get icon name using the options for iconsize
 //////////////////////////////////////////////////////////////////////////////
 QString ReportHandler::getIconName(const QString& pDefaultName)
@@ -2251,11 +2255,11 @@ void ReportHandler::evenSpacing(Qt::Axis axis)
 void ReportHandler::color()
 {
     DocumentWindow *gw = activeDocumentWindow();
-    if(!gw) 
+    if(!gw)
         return;
 
     QList<QGraphicsItem*> list = gw->_scene->selectedItems();
-    if(list.count() == 0) 
+    if(list.count() == 0)
         return; // no selected items
 
     QColor selectedColor;
@@ -2298,11 +2302,11 @@ void ReportHandler::color()
 void ReportHandler::fill()
 {
     DocumentWindow *gw = activeDocumentWindow();
-    if(!gw) 
+    if(!gw)
         return;
 
     QList<QGraphicsItem*> list = gw->_scene->selectedItems();
-    if(list.count() == 0) 
+    if(list.count() == 0)
         return; // no selected items
 
     QColor selectedColor;
@@ -2380,11 +2384,11 @@ void ReportHandler::border()
 void ReportHandler::rotation()
 {
     DocumentWindow *gw = activeDocumentWindow();
-    if(!gw) 
+    if(!gw)
         return;
 
     QList<QGraphicsItem*> list = gw->_scene->selectedItems();
-    if(list.count() == 0) 
+    if(list.count() == 0)
         return; // no selected items
 
     bool ok = false;
@@ -2395,14 +2399,14 @@ void ReportHandler::rotation()
         if(list.at(i)->type() != ORGraphicsLineItem::Type)
         {
             ORGraphicsRectItem * r = static_cast<ORGraphicsRectItem*>(list.at(i));
-            if(r) 
+            if(r)
             {
-                if(!ok) 
+                if(!ok)
                 {
                     angle = QInputDialog::getDouble(gw, tr("Rotation"),
                         tr("Angle (0-360) :"), r->rotation(), 0, 360, 1, &ok);
 
-                    if(!ok) 
+                    if(!ok)
                         return;
                 }
 
@@ -2416,7 +2420,7 @@ void ReportHandler::rotation()
 void ReportHandler::fontChange(const QString &text)
 {
     DocumentWindow *gw = activeDocumentWindow();
-    if(!gw) 
+    if(!gw)
         return;
 
     QList<QGraphicsItem*> list = gw->_scene->selectedItems();
@@ -2430,7 +2434,7 @@ void ReportHandler::fontChange(const QString &text)
 void ReportHandler::fontSizeChange(const QString &text)
 {
     DocumentWindow *gw = activeDocumentWindow();
-    if(!gw) 
+    if(!gw)
         return;
 
     QList<QGraphicsItem*> list = gw->_scene->selectedItems();
@@ -2444,7 +2448,7 @@ void ReportHandler::fontSizeChange(const QString &text)
 void ReportHandler::fontWeightChange(bool checked)
 {
     DocumentWindow *gw = activeDocumentWindow();
-    if(!gw) 
+    if(!gw)
         return;
 
     QList<QGraphicsItem*> list = gw->_scene->selectedItems();
@@ -2458,7 +2462,7 @@ void ReportHandler::fontWeightChange(bool checked)
 void ReportHandler::fontStyleChange(bool checked)
 {
     DocumentWindow *gw = activeDocumentWindow();
-    if(!gw) 
+    if(!gw)
         return;
 
     QList<QGraphicsItem*> list = gw->_scene->selectedItems();
@@ -2478,7 +2482,7 @@ void ReportHandler::setFontFamily(const QString &text)
   if(!w)
     return;
   QFontComboBox * o = w->findChild<QFontComboBox*>("font_family");
-  
+
   if(o)
     o->setEditText(text);
 }
@@ -2491,7 +2495,7 @@ void ReportHandler::setFontSize(const QString &text)
   if(!w)
     return;
   QComboBox * o = w->findChild<QComboBox*>("font_size");
-  
+
   if(o)
     o->setEditText(text);
 }
@@ -2504,7 +2508,7 @@ void ReportHandler::setFontWeight(bool v)
   if(!w)
     return;
   QPushButton * o = w->findChild<QPushButton*>("font_weight");
-  
+
   if(o)
     o->setChecked(v);
 }
@@ -2517,7 +2521,7 @@ void ReportHandler::setFontStyle(bool v)
   if(!w)
     return;
   QPushButton * o = w->findChild<QPushButton*>("font_style");
-  
+
   if(o)
     o->setChecked(v);
 }

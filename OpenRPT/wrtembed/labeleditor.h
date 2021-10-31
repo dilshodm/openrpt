@@ -30,7 +30,7 @@ class LabelEditor : public QDialog, public Ui::LabelEditor
     Q_OBJECT
 
 public:
-    LabelEditor(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    LabelEditor(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~LabelEditor();
     inline virtual Qt::Alignment alignment()  { return _alignment; };
     inline virtual QString text()  { return _text; };

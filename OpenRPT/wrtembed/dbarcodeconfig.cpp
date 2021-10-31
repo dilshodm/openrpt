@@ -6,6 +6,7 @@ DBarcodeConfig::DBarcodeConfig(QWidget *parent) :
     ui(new Ui::DBarcodeConfig)
 {
     ui->setupUi(this);
+    connect(ui->_SliderMaxVal, &QSlider::valueChanged, ui->_LMaxVal, qOverload<int>(&QLabel::setNum));
 }
 
 DBarcodeConfig::~DBarcodeConfig()

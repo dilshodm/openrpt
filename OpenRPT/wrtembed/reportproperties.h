@@ -32,7 +32,7 @@ class ReportProperties : public QDialog, public Ui::ReportProperties
     Q_OBJECT
 
 public:
-    ReportProperties(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    ReportProperties(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~ReportProperties();
 
 public slots:

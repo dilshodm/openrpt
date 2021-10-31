@@ -30,7 +30,7 @@ class GraphWindow : public QMainWindow, public Ui::GraphWindow
     Q_OBJECT
 
 public:
-    GraphWindow(QWidget* parent = 0, Qt::WindowFlags fl = 0);
+    GraphWindow(QWidget* parent = 0, Qt::WindowFlags fl = Qt::WindowFlags());
     ~GraphWindow();
 
 public slots:
