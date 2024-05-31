@@ -22,6 +22,7 @@
 
 #include <QVariant>
 #include <QTableWidgetItem>
+#include <QButtonGroup>
 #include "reportparameterlistitem.h"
 
 ReportParameter::ReportParameter(QWidget* parent, Qt::WindowFlags fl)
