@@ -27,7 +27,7 @@ DEFINES     += MAKELIB
 
 TARGET = openrptcommon
 
-INCLUDEPATH = . ../OpenRPT/common
+INCLUDEPATH += . ../OpenRPT/common
 
 DESTDIR = ../lib
 OBJECTS_DIR = tmp
@@ -52,7 +52,7 @@ SOURCES = data.cpp \
           memdbloader.cpp \
           ../OpenRPT/common/builtinSqlFunctions.cpp
 
-          
+
 HEADERS = data.h \
           parameter.h \
           dbtools.h \
@@ -71,7 +71,7 @@ HEADERS = data.h \
           memdbloader.h \
           ../OpenRPT/common/builtinSqlFunctions.h
 
-          
+
 FORMS   =  parameterproperties.ui \
            paramlistedit.ui \
            login.ui \

@@ -22,7 +22,7 @@ include( ../../global.pri )
 
 TEMPLATE = app
 CONFIG += qt warn_on
-INCLUDEPATH += ../common ../../common ../../../openrpt-build-desktop/common ../renderer
+INCLUDEPATH += ../common ../../common $$OUT_PWD/../../common ../renderer
 
 TARGET = RPTrender
 unix:TARGET = rptrender
