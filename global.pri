@@ -24,7 +24,7 @@
 # of the projects can be place.
 #
 
-CONFIG += release dll
+CONFIG += dll
 # TEMPORARY HACK
 win32 {
   CONFIG -= dll
